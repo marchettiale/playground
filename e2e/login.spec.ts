@@ -28,9 +28,8 @@ test('Fazer Login com Conta Regular', async ({ page }) => {
 
   await test.step('Fazer login com Id e Pass', async () => {
     await login.loginWithRegularAccound(
-      TEST_USERS.regular.user,
-      TEST_USERS.regular.password,
-      TEST_USERS.regular.message
+      TEST_USERS.regular
+
     );
   });
 });
@@ -43,9 +42,7 @@ test('Usuario não encontrado ', async ({ page }) => {
   });
   await test.step('Fazer login com ID Invalido', async () => {
     await login.UserNotFound(
-      TEST_USERS.invalid.user,
-      TEST_USERS.invalid.password,
-      TEST_USERS.invalid.message
+      TEST_USERS.invalid
     );
   });
 });
@@ -57,6 +54,7 @@ test('Login - User not found', async ({ page }) => {
   await expect(page.getByText('Instruções Login')).toHaveText(
     'Instruções Login'
   );
+
   // Add wrong UserNAme.
   await page.getByPlaceholder('Digite seu usuário').fill('testeSSS');
   await page.getByPlaceholder('Digite sua senha').fill('password123');
@@ -73,21 +71,23 @@ test('Login - User not found', async ({ page }) => {
   );
 });
 
-test.skip('Login - User Or Pass Incorrect', async ({ page }) => {
+test.only('Login - User Or Pass Incorrect', async ({ page }) => {
   await page.goto('login');
   await expect(page.getByText('Instruções Login')).toBeVisible();
   await expect(page.getByText('Instruções Login')).toHaveText(
     'Instruções Login'
   );
-  // Add wright UserNAme but whrong Pass and hit LOG once
+  // Add right UserName but wrong Pass and hit LOG once
   await page.getByPlaceholder('Digite seu usuário').fill('teste');
-  await page.getByPlaceholder('Digite sua senha').fill('password123');
+  await page.getByPlaceholder('Digite sua senha').fill('password123xx');
   await page.getByRole('button', { name: 'Logar' }).click();
-  await expect(page.getByText('Usuário não encontrado!')).toBeVisible();
-  await expect(page.getByText('Usuário não encontrado!')).toHaveText(
-    'Usuário não encontrado!'
+
+  await expect(page.locator('#statusInvalidPass')).toBeVisible();
+  await expect(page.locator('#statusInvalidPass')).toHaveText(
+    'Usuário ou senha estão incorretos!'
   );
 });
+
 
 test('Login - User temporarily blocked', async ({ page }) => {
   await page.goto('login');

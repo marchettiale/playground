@@ -1,4 +1,6 @@
-export const TEST_USERS = {
+import { TestUserType } from "../types/types";
+
+export const TEST_USERS: TestUserType = {
   regular: {
     user: 'teste',
     password: 'password123',

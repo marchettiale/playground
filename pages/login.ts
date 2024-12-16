@@ -1,5 +1,6 @@
  
 import { expect, Locator, Page } from "@playwright/test";
+import { UserType } from "../types/types";
 
 export class Login {
 
@@ -63,18 +64,18 @@ export class Login {
     await expect(this.logarBtn).toHaveText(LogBtnLabel)
   }
 
-  async loginWithRegularAccound(addUser, addPass, loggedText) {
-    await this.userName.fill(addUser);
-    await this.userPass.fill(addPass);
+  async loginWithRegularAccound(user:UserType) {
+    await this.userName.fill(user.user);
+    await this.userPass.fill(user.password);
     await this.logarBtn.click();
-    await expect(this.loggedInMessage).toHaveText(loggedText);
+    await expect(this.loggedInMessage).toHaveText(user.message);
   }
 
-  async UserNotFound(addUser, addPass, notFoundText) {
-    await this.userName.fill(addUser);
-    await this.userPass.fill(addPass);
+  async UserNotFound(user:UserType) {
+    await this.userName.fill(user.user);
+    await this.userPass.fill(user.password);
     await this.logarBtn.click();
-    await expect(this.notFoundUser).toHaveText(notFoundText);
+    await expect(this.notFoundUser).toHaveText(user.message);
   }
 
 }
