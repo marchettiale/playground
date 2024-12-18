@@ -1,5 +1,6 @@
  
 import { expect, Locator, Page } from "@playwright/test";
+import { UserType } from "../types/types";
 
 export class Login {
 
@@ -15,8 +16,12 @@ export class Login {
   logarBtn: Locator;
   userName: Locator;
   userPass: Locator;
+  // Messages
   loggedInMessage: Locator;
   notFoundUser: Locator;
+  wrongUserOrPass: Locator;
+  temporarilyBlockedMessage: Locator;
+  userBlockedMessage: Locator;
 
 
   constructor(page: Page) {
@@ -35,6 +40,9 @@ export class Login {
     this.userPass = this.page.locator('[id="passwordInput"]');
     this.loggedInMessage = this.page.locator('[id="loggedInMessage"]')
     this.notFoundUser = this.page.locator('[id="statusNotFound"]')
+    this.wrongUserOrPass = this.page.locator('[id="statusInvalidPass"]');
+    this.temporarilyBlockedMessage = this.page.locator('[id="statusTemporaryBlock"]');
+    this.userBlockedMessage = this.page.locator('[id="statusBlocked"]');
 
 
 
@@ -63,18 +71,45 @@ export class Login {
     await expect(this.logarBtn).toHaveText(LogBtnLabel)
   }
 
-  async loginWithRegularAccound(addUser, addPass, loggedText) {
-    await this.userName.fill(addUser);
-    await this.userPass.fill(addPass);
+  async loginWithRegularAccound(user:UserType) {
+    await this.userName.fill(user.user);
+    await this.userPass.fill(user.password);
     await this.logarBtn.click();
-    await expect(this.loggedInMessage).toHaveText(loggedText);
+    await expect(this.loggedInMessage).toHaveText(user.message);
   }
 
-  async UserNotFound(addUser, addPass, notFoundText) {
-    await this.userName.fill(addUser);
-    await this.userPass.fill(addPass);
+  async UserNotFound(user:UserType) {
+    await this.userName.fill(user.user);
+    await this.userPass.fill(user.password);
     await this.logarBtn.click();
-    await expect(this.notFoundUser).toHaveText(notFoundText);
+    await expect(this.notFoundUser).toHaveText(user.message);
   }
 
+  async wrongPassword(user:UserType) {
+    await this.userName.fill(user.user);
+    await this.userPass.fill(user.password);
+    await this.logarBtn.click();
+    await expect(this.wrongUserOrPass).toHaveText(user.message)
+  }
+
+  async userTemporarilyBlocked(user:UserType) {
+    await this.userName.fill(user.user);
+    await this.userPass.fill(user.password);
+    await this.logarBtn.click();
+    // await expect(this.wrongUserOrPass).toHaveText(user.message);
+    await this.logarBtn.click();
+    await this.logarBtn.click();
+    await this.logarBtn.click();
+    await expect(this.temporarilyBlockedMessage).toHaveText(user.message);
+  }
+
+
+
+  async userBlocked(user:UserType) {
+    await this.userName.fill(user.user);
+    await this.userPass.fill(user.password);
+    await this.logarBtn.click();
+    await expect(this.userBlockedMessage).toHaveText(user.message)
+
+}
 }
