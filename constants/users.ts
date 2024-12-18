@@ -9,7 +9,7 @@ export const TEST_USERS: TestUserType = {
   blocked: {
     user: 'testeblock',
     password: 'password123',
-    message: 'Usuário bloqueado',
+    message: 'Usuário bloqueado!',
   },
   invalid: {
     user: 'invaliduser',
@@ -19,6 +19,12 @@ export const TEST_USERS: TestUserType = {
   wrongPassword: {
     user: 'teste',
     password: 'password1234',
-    message: '',
+    message: 'Usuário ou senha estão incorretos!',
+  },
+  temporalilyBlocked: {
+    user: 'test',
+    password: 'wrongPass3x',
+    message: 'Usuário bloqueado temporariamente!', 
+    
   },
 };

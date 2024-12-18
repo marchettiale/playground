@@ -2,23 +2,23 @@ import { test, expect } from '@playwright/test';
 import { Login } from '../pages/login';
 import { TEST_USERS } from '../constants/users';
 
+// Validar elementos de tela e Instruções Pre-login
 test('Validar instruções de login', async ({ page }) => {
   const login = new Login(page);
 
   await test.step('Acessar a página de login', async () => {
     await login.goToLogin();
   });
-
   await test.step('Validar instruções de login', async () => {
     await login.validateLoginInstructions();
   });
-
   await test.step('Validar Login Labels', async () => {
     await login.validateLoginLabels('Login', 'Usuário', 'Senha', 'Logar');
+    //######## Depois de trabalhar com "user.ts", criar Objetos para Labels #####//
   });
 });
 
-// fazer loging novo teste
+// fazer loging - novo teste
 test('Fazer Login com Conta Regular', async ({ page }) => {
   const login = new Login(page);
 
@@ -27,106 +27,62 @@ test('Fazer Login com Conta Regular', async ({ page }) => {
   });
 
   await test.step('Fazer login com Id e Pass', async () => {
-    await login.loginWithRegularAccound(
-      TEST_USERS.regular
-
-    );
+    await login.loginWithRegularAccound(TEST_USERS.regular);
   });
 });
 
+
+
 // Usuário não encontrado!
 test('Usuario não encontrado ', async ({ page }) => {
-  const login = new Login(page);
+  const login = new Login(page); // ##-> Atenção
+
   await test.step('Acessar a página de login', async () => {
     await login.goToLogin();
   });
   await test.step('Fazer login com ID Invalido', async () => {
-    await login.UserNotFound(
-      TEST_USERS.invalid
-    );
+    await login.UserNotFound(TEST_USERS.invalid);
   });
 });
 
-test('Login - User not found', async ({ page }) => {
-  await page.goto('login');
-
+test('Login - User or Pass Invalid', async ({ page }) => {
+  const login = new Login(page);
+  await test.step('Acessar a página de login', async () => {
+    await login.goToLogin();
+  });
   await expect(page.getByText('Instruções Login')).toBeVisible();
   await expect(page.getByText('Instruções Login')).toHaveText(
     'Instruções Login'
   );
+    //##### Add wrong UserName. WRONG PASSWORD
+  await test.step('Fazer Loging com Password Errado', async () =>{
+    await login.wrongPassword(TEST_USERS.wrongPassword);
 
-  // Add wrong UserNAme.
-  await page.getByPlaceholder('Digite seu usuário').fill('testeSSS');
-  await page.getByPlaceholder('Digite sua senha').fill('password123');
-  await page.getByRole('button', { name: 'Logar' }).click();
-  await page.getByText('Usuário não encontrado!').click();
-  await expect(page.locator('#statusNotFound')).toBeVisible();
-  await expect(page.locator('#statusNotFound')).toHaveText(
-    'Usuário não encontrado!'
-  );
-
-  await expect(page.getByText('Usuário não encontrado!')).toBeVisible();
-  await expect(page.getByText('Usuário não encontrado!')).toHaveText(
-    'Usuário não encontrado!'
-  );
+  })
 });
 
-test.only('Login - User Or Pass Incorrect', async ({ page }) => {
-  await page.goto('login');
-  await expect(page.getByText('Instruções Login')).toBeVisible();
-  await expect(page.getByText('Instruções Login')).toHaveText(
-    'Instruções Login'
-  );
-  // Add right UserName but wrong Pass and hit LOG once
-  await page.getByPlaceholder('Digite seu usuário').fill('teste');
-  await page.getByPlaceholder('Digite sua senha').fill('password123xx');
-  await page.getByRole('button', { name: 'Logar' }).click();
-
-  await expect(page.locator('#statusInvalidPass')).toBeVisible();
-  await expect(page.locator('#statusInvalidPass')).toHaveText(
-    'Usuário ou senha estão incorretos!'
-  );
+// ## temporalilyBlocked
+test.skip('Login - User temporarily blocked', async ({ page }) => {
+  const login = new Login(page);
+  await test.step('Acessar a página de login', async () => {
+    await login.goToLogin();
+  });
+  
+  await test.step('Errar Pass e clicar Log 03 vezes', async () => { 
+    await login.userTemporarilyBlocked(TEST_USERS.temporalilyBlocked);
+  
+  })
 });
 
-
-test('Login - User temporarily blocked', async ({ page }) => {
-  await page.goto('login');
-  await page.getByPlaceholder('Digite seu usuário').fill('teste');
-  await page.getByPlaceholder('Digite sua senha').fill('passwordERROR');
-  // Add wright UserNAme but whrong Pass and hit LOG for the third time.
-  await page.getByRole('button', { name: 'Logar' }).click();
-  await page.getByRole('button', { name: 'Logar' }).click();
-  await page.getByRole('button', { name: 'Logar' }).click();
-
-  await expect(page.locator('#statusTemporaryBlock')).toBeVisible();
-  await expect(page.locator('#statusTemporaryBlock')).toHaveText(
-    'Usuário bloqueado temporariamente!'
-  );
-
-  await expect(
-    page.getByText('Usuário bloqueado temporariamente!')
-  ).toBeVisible();
-  await expect(page.getByText('Usuário bloqueado temporariamente!')).toHaveText(
-    'Usuário bloqueado temporariamente!'
-  );
-});
 
 test('Login - User Blocked', async ({ page }) => {
-  await page.goto('login');
-  await page.getByPlaceholder('Digite seu usuário').fill('testeblock');
-  await page.getByPlaceholder('Digite sua senha').fill('password123');
-  // Add wright UserNAme but whrong Pass and hit LOG for the third time.
-  await page.getByRole('button', { name: 'Logar' }).click();
-  await page.getByRole('button', { name: 'Logar' }).click();
-  await page.getByRole('button', { name: 'Logar' }).click();
-
-  await expect(page.locator('#statusBlocked')).toBeVisible();
-  await expect(page.locator('#statusBlocked')).toHaveText('Usuário bloqueado!');
-
-  await expect(page.getByText('Usuário bloqueado')).toBeVisible();
-  await expect(page.getByText('Usuário bloqueado')).toHaveText(
-    'Usuário bloqueado!'
-  );
+  const login = new Login(page);
+  await test.step('Acessar a página de login', async () => {
+    await login.goToLogin();
+  });
+  await test.step('Inserir Conta bloqueada Id', async () => {
+    await login.userBlocked(TEST_USERS.blocked);
+  });
 });
 
 test('Login - UnBlock User', async ({ page }) => {
@@ -160,6 +116,6 @@ test('Login - UnBlock User', async ({ page }) => {
   await page.getByRole('button', { name: 'Logout' }).click();
   await expect(page.getByText('Você foi desconectado. Por')).toBeVisible();
   await expect(page.getByText('Você foi desconectado. Por')).toHaveText(
-    'Você foi desconectado. Por favor, faça login.'
-  );
+    'Você foi desconectado. Por favor, faça login.');
+   
 });

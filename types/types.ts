@@ -10,4 +10,7 @@ export type TestUserType = {
     blocked: UserType;
     invalid: UserType;
     wrongPassword: UserType;
+    temporalilyBlocked: UserType;
+    
+    
 };
