@@ -31,8 +31,6 @@ test('Fazer Login com Conta Regular', async ({ page }) => {
   });
 });
 
-
-
 // Usuário não encontrado!
 test('Usuario não encontrado ', async ({ page }) => {
   const login = new Login(page); // ##-> Atenção
@@ -54,26 +52,23 @@ test('Login - User or Pass Invalid', async ({ page }) => {
   await expect(page.getByText('Instruções Login')).toHaveText(
     'Instruções Login'
   );
-    //##### Add wrong UserName. WRONG PASSWORD
-  await test.step('Fazer Loging com Password Errado', async () =>{
+  //##### Add wrong UserName. WRONG PASSWORD
+  await test.step('Fazer Loging com Password Errado', async () => {
     await login.wrongPassword(TEST_USERS.wrongPassword);
-
-  })
+  });
 });
 
 // ## temporalilyBlocked
-test.skip('Login - User temporarily blocked', async ({ page }) => {
+test('Login - User temporarily blocked', async ({ page }) => {
   const login = new Login(page);
   await test.step('Acessar a página de login', async () => {
     await login.goToLogin();
   });
-  
-  await test.step('Errar Pass e clicar Log 03 vezes', async () => { 
-    await login.userTemporarilyBlocked(TEST_USERS.temporalilyBlocked);
-  
-  })
-});
 
+  await test.step('Errar Pass e clicar Log 03 vezes', async () => {
+    await login.userTemporarilyBlocked(TEST_USERS.temporalilyBlocked);
+  });
+});
 
 test('Login - User Blocked', async ({ page }) => {
   const login = new Login(page);
@@ -116,6 +111,6 @@ test('Login - UnBlock User', async ({ page }) => {
   await page.getByRole('button', { name: 'Logout' }).click();
   await expect(page.getByText('Você foi desconectado. Por')).toBeVisible();
   await expect(page.getByText('Você foi desconectado. Por')).toHaveText(
-    'Você foi desconectado. Por favor, faça login.');
-   
+    'Você foi desconectado. Por favor, faça login.'
+  );
 });
