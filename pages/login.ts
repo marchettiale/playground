@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { UserType } from '../types/types';
 import { LOGIN_MESSAGE } from '../constants/users';
+import { TUser } from '../types';
 
 export class Login {
   page: Page;
@@ -74,28 +74,28 @@ export class Login {
     await expect(this.logarBtn).toHaveText(LogBtnLabel);
   }
 
-  async loginWithRegularAccound(user: UserType) {
+  async loginWithRegularAccound(user: TUser) {
     await this.userName.fill(user.user);
     await this.userPass.fill(user.password);
     await this.logarBtn.click();
-    await expect(this.loggedInMessage).toHaveText(user.message);
+    await expect(this.loggedInMessage).toHaveText(LOGIN_MESSAGE.sucess);
   }
 
-  async UserNotFound(user: UserType) {
+  async UserNotFound(user: TUser) {
     await this.userName.fill(user.user);
     await this.userPass.fill(user.password);
     await this.logarBtn.click();
-    await expect(this.notFoundUser).toHaveText(user.message);
+    await expect(this.notFoundUser).toHaveText(LOGIN_MESSAGE.notFound);
   }
 
-  async wrongPassword(user: UserType) {
+  async wrongPassword(user: TUser) {
     await this.userName.fill(user.user);
     await this.userPass.fill(user.password);
     await this.logarBtn.click();
-    await expect(this.wrongUserOrPass).toHaveText(user.message);
+    await expect(this.wrongUserOrPass).toHaveText(LOGIN_MESSAGE.wrongPass);
   }
 
-  async userTemporarilyBlocked(user: UserType) {
+  async userTemporarilyBlocked(user: TUser) {
     await this.userName.fill(user.user);
     await this.userPass.fill(user.password);
 
@@ -111,10 +111,10 @@ export class Login {
     }
   }
 
-  async userBlocked(user: UserType) {
+  async userBlocked(user: TUser) {
     await this.userName.fill(user.user);
     await this.userPass.fill(user.password);
     await this.logarBtn.click();
-    await expect(this.userBlockedMessage).toHaveText(user.message);
+    await expect(this.userBlockedMessage).toHaveText(LOGIN_MESSAGE.blocked);
   }
 }

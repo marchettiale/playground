@@ -58,7 +58,7 @@ test('Login - User or Pass Invalid', async ({ page }) => {
   });
 });
 
-// ## temporalilyBlocked
+// ## temporarilyBlocked
 test('Login - User temporarily blocked', async ({ page }) => {
   const login = new Login(page);
   await test.step('Acessar a página de login', async () => {
@@ -66,7 +66,7 @@ test('Login - User temporarily blocked', async ({ page }) => {
   });
 
   await test.step('Errar Pass e clicar Log 03 vezes', async () => {
-    await login.userTemporarilyBlocked(TEST_USERS.temporalilyBlocked);
+    await login.userTemporarilyBlocked(TEST_USERS.temporarilyBlocked);
   });
 });
 
@@ -81,36 +81,14 @@ test('Login - User Blocked', async ({ page }) => {
 });
 
 test('Login - UnBlock User', async ({ page }) => {
-  await page.goto('login');
-  await page.getByPlaceholder('Digite seu usuário').fill('testeblock');
-  await page.getByPlaceholder('Digite sua senha').fill('password123');
-  // Add wright UserNAme but whrong Pass and hit LOG for the third time.
-  await page.getByRole('button', { name: 'Logar' }).click();
-  await page.getByRole('button', { name: 'Logar' }).click();
-  await page.getByRole('button', { name: 'Logar' }).click();
-
-  await expect(page.locator('#statusBlocked')).toBeVisible();
-  await expect(page.locator('#statusBlocked')).toHaveText('Usuário bloqueado!');
-  await expect(page.getByText('Usuário bloqueado')).toBeVisible();
-  await expect(page.getByText('Usuário bloqueado')).toHaveText(
-    'Usuário bloqueado!'
-  );
-  await page.getByPlaceholder('Digite seu usuário').fill('teste');
-  await page.getByRole('button', { name: 'Logar' }).click();
-
-  await expect(page.getByText('Usuário logado com sucesso!')).toBeVisible();
-  await expect(page.getByText('Usuário logado com sucesso!')).toHaveText(
-    'Usuário logado com sucesso! Redirecionando...'
-  );
-  await expect(page.getByRole('button', { name: 'Logout' })).toBeVisible();
-
-  await expect(page.getByText('Usuário teste logado')).toBeVisible();
-  await expect(page.getByText('Usuário teste logado')).toHaveText(
-    'Usuário teste logado'
-  );
-  await page.getByRole('button', { name: 'Logout' }).click();
-  await expect(page.getByText('Você foi desconectado. Por')).toBeVisible();
-  await expect(page.getByText('Você foi desconectado. Por')).toHaveText(
-    'Você foi desconectado. Por favor, faça login.'
-  );
+  const login = new Login(page);
+  await test.step('Acessar a página de login', async () => {
+    await login.goToLogin();
+  });
+  await test.step('Inserir Conta bloqueada Id', async () => {
+    await login.userTemporarilyBlocked(TEST_USERS.temporarilyBlocked);
+  });
+  await test.step('Unblock User', async () => {
+    await login.loginWithRegularAccound(TEST_USERS.regular);
+  });
 });
