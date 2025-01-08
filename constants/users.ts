@@ -1,6 +1,7 @@
-import { TestUserType } from '../types/types';
+import { TUserMessage, TUsers } from "../types";
 
-export const TEST_USERS: TestUserType = {
+
+export const TEST_USERS: TUsers = {
   regular: {
     user: 'teste',
     password: 'password123',
@@ -28,10 +29,11 @@ export const TEST_USERS: TestUserType = {
   },
 };
 
-export const LOGIN_MESSAGE = {
+export const LOGIN_MESSAGE: TUserMessage = {
   sucess: 'Usuário teste logado',
   blocked: 'Usuário bloqueado!',
   notFound: 'Usuário não encontrado!',
   wrongPass: 'Usuário ou senha estão incorretos!',
   tempBlock: 'Usuário bloqueado temporariamente!',
+
 };
