@@ -1,5 +1,4 @@
-import { TUserMessage, TUsers } from "../types";
-
+import { TUserMessage, TUsers } from '../types';
 
 export const TEST_USERS: TUsers = {
   regular: {
@@ -22,7 +21,7 @@ export const TEST_USERS: TUsers = {
     password: 'password1234',
     message: 'Usuário ou senha estão incorretos!',
   },
-  temporalilyBlocked: {
+  temporarilyBlocked: {
     user: 'teste',
     password: 'wrongPass3x',
     message: 'Usuário bloqueado temporariamente!',
@@ -35,5 +34,4 @@ export const LOGIN_MESSAGE: TUserMessage = {
   notFound: 'Usuário não encontrado!',
   wrongPass: 'Usuário ou senha estão incorretos!',
   tempBlock: 'Usuário bloqueado temporariamente!',
-
 };

@@ -81,14 +81,14 @@ test('Login - User Blocked', async ({ page }) => {
 });
 
 test('Login - UnBlock User', async ({ page }) => {
-    const login = new Login(page);
-    await test.step('Acessar a página de login', async () => {
-      await login.goToLogin();
-    });
-    await test.step('Inserir Conta bloqueada Id', async () => {
-      await login.userTemporarilyBlocked(TEST_USERS.temporarilyBlocked);
-    });
-    await test.step('Unblock User', async () => {
-      await login.loginWithRegularAccound(TEST_USERS.temporarilyBlocked);
-    });
+  const login = new Login(page);
+  await test.step('Acessar a página de login', async () => {
+    await login.goToLogin();
+  });
+  await test.step('Inserir Conta bloqueada Id', async () => {
+    await login.userTemporarilyBlocked(TEST_USERS.temporarilyBlocked);
+  });
+  await test.step('Unblock User', async () => {
+    await login.loginWithRegularAccound(TEST_USERS.regular);
+  });
 });
