@@ -68,6 +68,9 @@ test('Validar Instruções do Cadastro', async ({ page }) => {
 test('Validar PlaceHolders Content', async ({ page }) => {
   const Form = new FormPage(page);
   await Form.goToForm();
-  await Form.validatePlaceHolder();
+  await Form.validatePlaceHolder('Alex', 'alex@ElementInternals.com', '$12345');
+
+  await page.getByRole('button', { name: 'Enviar' }).click();
+  // Opção = validar duas mensagens de erros - País e Gˆ
 });
 // Is all checkBoxes selected

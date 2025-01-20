@@ -27,16 +27,26 @@ export class FormPage {
       .getAttribute('placeholder');
     expect(placeholder).toBe(value);
   }
-  async validatePlaceHolder() {
+  async validatePlaceHolder(name: string, email: string, passWord: string) {
     await this.placeHolders('Digite seu nome');
     await this.placeHolders('Digite seu e-mail');
     await this.placeHolders('Digite sua senha');
-    // await this.placeHolders(texto);
+    await this.page.getByPlaceholder('Digite seu nome').fill(name);
+    await this.page.getByPlaceholder('Digite seu e-mail').fill(email);
+    await this.page.getByPlaceholder('Digite sua senha').fill(passWord);
+    // Trouxe o Btn Enviar pra ca:
+    await this.page.getByRole('button', { name: 'Enviar' }).click();
+    await expect(this.page.locator('[id="countryError"]')).toHaveText(
+      'O campo país é obrigatório.'
+    );
+    await expect(this.page.locator('[id="genderError"]')).toHaveText(
+      'O campo gênero é obrigatório.'
+    );
   }
 
-  async validateNameField() {
-    await expect(this.page.getByPlaceholder('Digite seu nome')).toBeVisible();
-  }
+  // async validateNameField() {
+  //   await expect(this.page.getByPlaceholder('Digite seu nome')).toBeVisible();
+  // }
 
   async inputName(name: string) {
     // aqui além do input name tem aproveitamento do metodo validateLabel..
