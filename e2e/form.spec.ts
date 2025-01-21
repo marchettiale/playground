@@ -1,79 +1,30 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { FormPage } from '../pages/formPage';
+import { NEW_USERS } from '../constants/newUsers';
 
-test('Validar Form', async ({ page }) => {
+test('Validar usuario com todos os campos preenchidos', async ({ page }) => {
   const Form = new FormPage(page);
   await Form.goToForm();
-
-  await Form.inputName('Alessandro');
-  // await Form.validateNameField();
-  // await Form.validateNameLabel('Nome');
-
-  //mapeamento geral fora da Page //
-  await page.getByPlaceholder('Digite seu e-mail').fill('email@email.com');
-  await page.getByPlaceholder('Digite sua senha').fill('Abc12335');
-  await page.getByLabel('País *').selectOption('brazil');
-  await page.getByText('Masculino').click();
-  // 'Feminino' //  'Outros'
-  // Lazer
-  await Form.insertLazer('Ler');
-  // await page.getByText('Ler').click();
-  // await page.getByText('Jogos').click();
-  // await page.getByText('Televisão').click();
-  // await page.getByText('Viajar').click();
-  // await page.getByText('Esportes').click();
-  // await page.getByText('Cantar').click();
-  // await page.getByRole('button', { name: 'Enviar' }).click();
+  await Form.inputName(NEW_USERS.allFields.name);
+  await Form.inputEmail(NEW_USERS.allFields.email);
+  await Form.inputPass(NEW_USERS.allFields.pass);
+  await Form.selectCountry(NEW_USERS.allFields.country);
+  await Form.selectGender(NEW_USERS.allFields.gender);
+  await Form.inputHobbies(NEW_USERS.allFields.hobbies);
   await Form.submitForm();
-  await Form.successMessage();
+  await Form.successMessage(NEW_USERS.allFields.expectedMessage);
 });
 
-test('Cadastro - Todos os Campos', async ({ page }) => {
+test('Validar usuario com todos os campos obrigatórios preenchidos', async ({
+  page,
+}) => {
   const Form = new FormPage(page);
   await Form.goToForm();
-
-  await Form.addNameEmailPass('Joao Campo', 'email@email.com', 'abc1234');
-  await Form.selectCountry();
-  await Form.selectGender('Masculino');
-  await Form.selectLazer('Viajar');
-  // await page.getByRole('button', { name: 'Enviar' }).click();
+  await Form.inputName(NEW_USERS.mandatoryFields.name);
+  await Form.inputEmail(NEW_USERS.mandatoryFields.email);
+  await Form.inputPass(NEW_USERS.mandatoryFields.pass);
+  await Form.selectCountry(NEW_USERS.mandatoryFields.country);
+  await Form.selectGender(NEW_USERS.mandatoryFields.gender);
   await Form.submitForm();
-  await Form.successMessage();
+  await Form.successMessage(NEW_USERS.mandatoryFields.expectedMessage);
 });
-
-test('Cadastro - Somente campos obrigatórios', async ({ page }) => {
-  const Form = new FormPage(page);
-  await Form.goToForm();
-
-  await Form.addNameEmailPass('Joao Campo', 'email@email.com', 'abc1234');
-  await Form.selectCountry();
-  await Form.selectGender('Masculino');
-  // await page.getByRole('button', { name: 'Enviar' }).click();
-  await Form.submitForm();
-  await Form.successMessage();
-});
-
-test('Cadastro - Nenhum campo preenchido', async ({ page }) => {
-  const Form = new FormPage(page);
-  await Form.goToForm();
-  // await page.getByRole('button', { name: 'Enviar' }).click();
-  await Form.submitForm();
-  await Form.validateErrorMessages();
-});
-
-// Instruçoes do Cadastro
-test('Validar Instruções do Cadastro', async ({ page }) => {
-  const Form = new FormPage(page);
-  await Form.goToForm();
-  await Form.validateFormInstructions();
-});
-
-test('Validar PlaceHolders Content', async ({ page }) => {
-  const Form = new FormPage(page);
-  await Form.goToForm();
-  await Form.validatePlaceHolder('Alex', 'alex@ElementInternals.com', '$12345');
-
-  // await page.getByRole('button', { name: 'Enviar' }).click();
-  // Opção = validar duas mensagens de erros - País e Gênero.
-});
-// Is all checkBoxes selected
