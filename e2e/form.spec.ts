@@ -4,6 +4,7 @@ import { FormPage } from '../pages/formPage';
 test('Validar Form', async ({ page }) => {
   const Form = new FormPage(page);
   await Form.goToForm();
+
   await Form.inputName('Alessandro');
   // await Form.validateNameField();
   // await Form.validateNameLabel('Nome');
@@ -11,20 +12,20 @@ test('Validar Form', async ({ page }) => {
   //mapeamento geral fora da Page //
   await page.getByPlaceholder('Digite seu e-mail').fill('email@email.com');
   await page.getByPlaceholder('Digite sua senha').fill('Abc12335');
-
   await page.getByLabel('País *').selectOption('brazil');
-
   await page.getByText('Masculino').click();
   // 'Feminino' //  'Outros'
   // Lazer
-  await page.getByText('Ler').click();
-  await page.getByText('Jogos').click();
-  await page.getByText('Televisão').click();
-  await page.getByText('Viajar').click();
-  await page.getByText('Esportes').click();
-  await page.getByText('Cantar').click();
-
-  await page.getByRole('button', { name: 'Enviar' }).click();
+  await Form.insertLazer('Ler');
+  // await page.getByText('Ler').click();
+  // await page.getByText('Jogos').click();
+  // await page.getByText('Televisão').click();
+  // await page.getByText('Viajar').click();
+  // await page.getByText('Esportes').click();
+  // await page.getByText('Cantar').click();
+  // await page.getByRole('button', { name: 'Enviar' }).click();
+  await Form.submitForm();
+  await Form.successMessage();
 });
 
 test('Cadastro - Todos os Campos', async ({ page }) => {
@@ -35,7 +36,8 @@ test('Cadastro - Todos os Campos', async ({ page }) => {
   await Form.selectCountry();
   await Form.selectGender('Masculino');
   await Form.selectLazer('Viajar');
-  await page.getByRole('button', { name: 'Enviar' }).click();
+  // await page.getByRole('button', { name: 'Enviar' }).click();
+  await Form.submitForm();
   await Form.successMessage();
 });
 
@@ -46,15 +48,16 @@ test('Cadastro - Somente campos obrigatórios', async ({ page }) => {
   await Form.addNameEmailPass('Joao Campo', 'email@email.com', 'abc1234');
   await Form.selectCountry();
   await Form.selectGender('Masculino');
-
-  await page.getByRole('button', { name: 'Enviar' }).click();
+  // await page.getByRole('button', { name: 'Enviar' }).click();
+  await Form.submitForm();
   await Form.successMessage();
 });
 
 test('Cadastro - Nenhum campo preenchido', async ({ page }) => {
   const Form = new FormPage(page);
   await Form.goToForm();
-  await page.getByRole('button', { name: 'Enviar' }).click();
+  // await page.getByRole('button', { name: 'Enviar' }).click();
+  await Form.submitForm();
   await Form.validateErrorMessages();
 });
 

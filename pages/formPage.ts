@@ -59,6 +59,16 @@ export class FormPage {
     await this.page.getByPlaceholder('Digite seu nome').fill(name);
   }
 
+  //** */ Metodo Generico pra Label em LAZER:
+  async validateLazer(valueLazer: string) {
+    await expect(this.page.getByText(valueLazer)).toBeVisible();
+    await expect(this.page.getByText(valueLazer)).toHaveText(valueLazer);
+    await this.page.getByText(valueLazer).click();
+  }
+  async insertLazer(lazer: string) {
+    await this.validateLazer(lazer);
+  }
+
   // OLD WAY //
   async addNameEmailPass(name: string, email: string, pass: string) {
     await this.page.getByPlaceholder('Digite seu nome').fill(name);
@@ -112,5 +122,9 @@ export class FormPage {
     await expect(this.page.locator('[id="instructionsFormItem3"]')).toHaveText(
       'Após o envio do formulário, você receberá uma mensagem de confirmação indicando se o cadastro foi realizado com sucesso.'
     );
+  }
+
+  async submitForm() {
+    await this.page.getByRole('button', { name: 'Enviar' }).click();
   }
 }
