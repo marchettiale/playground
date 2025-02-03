@@ -1,4 +1,12 @@
 const successMessage = 'O formulário foi enviado com sucesso.';
+const errorMessages = {
+  name: 'O campo nome é obrigatório.',
+  email: 'O campo email é obrigatório.',
+  pass: 'O campo senha é obrigatório.',
+  country: 'O campo país é obrigatório.',
+  gender: 'O campo gênero é obrigatório.',
+};
+
 const genders = {
   male: 'Masculino',
   female: 'Feminino',
@@ -22,5 +30,12 @@ export const NEW_USERS = {
     country: 'brazil',
     gender: genders.male,
     expectedMessage: successMessage,
+  },
+  emptyFieldsErrorMessage: {
+    nameErrorMessage: errorMessages.name,
+    emailErrorMessage: errorMessages.email,
+    passErrorMessage: errorMessages.pass,
+    coutryErrorMessage: errorMessages.country,
+    genderErrorMessage: errorMessages.gender,
   },
 };
