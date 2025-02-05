@@ -1,5 +1,4 @@
 import { expect, Page } from '@playwright/test';
-import { NEW_USERS } from '../constants/newUsers';
 
 export class FormPage {
   page: Page;

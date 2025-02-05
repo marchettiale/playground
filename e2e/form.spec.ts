@@ -1,7 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { FormPage } from '../pages/formPage';
 import { NEW_USERS } from '../constants/newUsers';
-import { FORMERR } from 'dns';
 
 test('Validar usuario com todos os campos preenchidos', async ({ page }) => {
   const Form = new FormPage(page);
