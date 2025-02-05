@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { Login } from '../pages/login';
 import { TEST_USERS } from '../constants/users';
+import { Login } from '../pages/loginPage';
 
 // Validar elementos de tela e Instruções Pre-login
 test('Validar instruções de login', async ({ page }) => {
