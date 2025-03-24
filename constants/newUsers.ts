@@ -1,4 +1,11 @@
+const formPlaceHolders = {
+  nome: 'Digite seu nome',
+  email: 'Digite seu e-mail',
+  senha: 'Digite sua senha',
+};
+
 const successMessage = 'O formulário foi enviado com sucesso.';
+
 const errorMessages = {
   name: 'O campo nome é obrigatório.',
   email: 'O campo email é obrigatório.',
@@ -37,5 +44,10 @@ export const NEW_USERS = {
     passErrorMessage: errorMessages.pass,
     coutryErrorMessage: errorMessages.country,
     genderErrorMessage: errorMessages.gender,
+  },
+  previewPlaceHolders: {
+    namePlaceholder: formPlaceHolders.nome,
+    emailPlaceholder: formPlaceHolders.email,
+    senhaPlaceholder: formPlaceHolders.senha,
   },
 };
