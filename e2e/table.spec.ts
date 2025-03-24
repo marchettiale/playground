@@ -1,47 +1,31 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { TablePage } from '../pages/tablePage';
 
-test('Validar Table', async ({ page }) => {
-  const Table = new TablePage(page);
-  await Table.goToTable();
+let characters: any[] = [];
 
-  await Table.validateTableInstructions();
-  await Table.validateColunHeaderText();
+test.describe('Validate charaters', () => {
+  test.beforeAll(async ({ request }) => {
+    const response = await request.get(
+      'https://hp-api.onrender.com/api/characters'
+    );
+    characters = await response.json();
+  });
 
-  await page.getByRole('img', { name: 'Draco Malfoy' }).click();
-  await page.locator('#tableCharacterNameDracoMalfoy').click();
-  await page.locator('#tableCharacterHouseDracoMalfoy').click();
+  for (let i = 0; i < 10; i++) {
+    test('Validar Table Dinâmica ' + (i + 1), async ({ page }) => {
+      const Table = new TablePage(page);
 
-  await page.getByRole('cell', { name: '-06-1980' }).click();
-  await page.getByRole('cell', { name: 'Tom Felton' }).click();
-});
-
-test('Validar Table Dinâmica', async ({ page }) => {
-  const Table = new TablePage(page);
-
-  // # Sintaxe para criar Constante response e atribuir a ela a Response to Get
-  const response = await page.request.get(
-    'https://hp-api.onrender.com/api/characters'
-  );
-  const characters = await response.json();
-  // # Sintaxe para criar Constante characters e atribuir a ela a const response E com Json
-
-  await Table.goToTable();
-
-  await Table.validateTableInstructions();
-  await Table.validateColumnHeaderText2('Name');
-
-  await Table.validateProfileImage(characters[5].name);
-  await Table.validateProfileName(characters[5].name);
-
-  await Table.validateProfileHouse(characters[5].name, characters[5].house);
-
-  await Table.validateProfileDateOfBirth(
-    characters[5].name,
-    characters[5].dateOfBirth
-  );
-  console.log(characters[5].dateOfBirth);
-
-  await Table.validateActor(characters[5].name, characters[5].actor);
-  console.log(characters[5].name, '=', characters[5].actor);
+      await Table.goToTable();
+      await Table.validateTableInstructions();
+      await Table.validateColumnHeaderText2('Name');
+      await Table.validateProfileImage(characters[i].name);
+      await Table.validateProfileName(characters[i].name);
+      await Table.validateProfileHouse(characters[i].name, characters[i].house);
+      await Table.validateProfileDateOfBirth(
+        characters[i].name,
+        characters[i].dateOfBirth
+      );
+      await Table.validateActor(characters[i].name, characters[i].actor);
+    });
+  }
 });

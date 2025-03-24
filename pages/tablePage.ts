@@ -97,17 +97,27 @@ export class TablePage {
   ) {
     const characterNameWithOutSpace = characterName.replace(' ', '');
 
+    //const characterDate = String(characterDateOfBirth);
+
     await expect(
       this.page.locator(
         '#tableCharacterDateOfBirth' + characterNameWithOutSpace
       )
     ).toBeVisible();
 
-    await expect(
-      this.page.locator(
-        '#tableCharacterDateOfBirth' + characterNameWithOutSpace
-      )
-    ).toHaveText(characterDateOfBirth);
+    if (characterDateOfBirth === null) {
+      await expect(
+        this.page.locator(
+          '#tableCharacterDateOfBirth' + characterNameWithOutSpace
+        )
+      ).toHaveText('Unknown');
+    } else {
+      await expect(
+        this.page.locator(
+          '#tableCharacterDateOfBirth' + characterNameWithOutSpace
+        )
+      ).toHaveText(characterDateOfBirth);
+    }
   }
 
   async validateActor(characterName: string, characterActor: string) {
