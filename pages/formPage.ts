@@ -67,4 +67,12 @@ export class FormPage {
     await expect(this.page.getByText(error)).toBeHidden();
     await expect(this.page.getByText(error)).not.toBeVisible();
   }
+  async placeholdersText(placeHText: string) {
+    await expect(this.page.getByPlaceholder(placeHText)).toBeVisible();
+
+    const value = await this.page
+      .getByPlaceholder(placeHText)
+      .getAttribute('placeholder');
+    expect(value).toBe(placeHText);
+  }
 }

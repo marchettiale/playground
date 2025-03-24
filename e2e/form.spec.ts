@@ -2,6 +2,14 @@ import { expect, test } from '@playwright/test';
 import { FormPage } from '../pages/formPage';
 import { NEW_USERS } from '../constants/newUsers';
 
+test('Validar Placeholder de nome, Email e Senha', async ({ page }) => {
+  const Form = new FormPage(page);
+  await Form.goToForm();
+  await Form.placeholdersText(NEW_USERS.previewPlaceHolders.namePlaceholder);
+  await Form.placeholdersText(NEW_USERS.previewPlaceHolders.emailPlaceholder);
+  await Form.placeholdersText(NEW_USERS.previewPlaceHolders.senhaPlaceholder);
+});
+
 test('Validar usuario com todos os campos preenchidos', async ({ page }) => {
   const Form = new FormPage(page);
   await Form.goToForm();
